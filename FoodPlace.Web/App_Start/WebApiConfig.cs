@@ -26,6 +26,7 @@ namespace FoodPlace.Web
                 defaults: new { id = RouteParameter.Optional }
             );
 
+
             config.EnableCors();
         }
     }
