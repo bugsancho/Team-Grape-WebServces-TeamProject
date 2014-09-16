@@ -1,0 +1,26 @@
+﻿namespace FoodPlace.Models
+{
+    using System;
+    using System.Collections.Generic;
+
+    public class Order
+    {
+        private ICollection<Product> products;
+
+        public int Id { get; set; }
+
+        public DateTime TimeOfOrder { get; set; }
+
+        public virtual ICollection<Product> Products
+        {
+            get
+            {
+                return this.products;
+            }
+            set
+            {
+                this.products = value;
+            }
+        }
+    }
+}
