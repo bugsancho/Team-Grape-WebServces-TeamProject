@@ -22,7 +22,7 @@ namespace FoodPlace.Web.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult Get()
+        public string Get()
         {
             var product = new Product() { Name = "pepi", Price = 5.2m };
             try
@@ -32,10 +32,10 @@ namespace FoodPlace.Web.Controllers
             }
             catch (Exception ex)
             {
-                return InternalServerError(ex);
+                return ex.Message + "\n" + ex.StackTrace;
             }
-           
-            return Ok(product);
+
+            return product.Name;
         }
     }
 }
