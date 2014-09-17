@@ -9,6 +9,12 @@ namespace FoodPlace.Data
 
         IRepository<Order> Orders { get; }
 
+        IRepository<Cart> Carts { get; }
+
+        IRepository<Category> Categories { get; }
+
+      //  IRepository<User> Users { get; }// mb should be removed
+
         int SaveChanges();
     }
 }
