@@ -9,9 +9,10 @@
     public class FoodPlaceDbContext : IdentityDbContext<User>
     {
         //TODO add sets for other items
-        public FoodPlaceDbContext() : base("FoodPlaceConnection", throwIfV1Schema: false)
+        public FoodPlaceDbContext() : base("AppHarborConn", throwIfV1Schema: false)
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<FoodPlaceDbContext>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<FoodPlaceDbContext,Configuration>());
+            
         }
 
         public static FoodPlaceDbContext Create()

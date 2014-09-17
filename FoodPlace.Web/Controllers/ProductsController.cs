@@ -13,10 +13,10 @@ namespace FoodPlace.Web.Controllers
 {
     public class ProductsController : BaseApiController
     {
-        public ProductsController() :this(new FoodPlaceData( new FoodPlaceDbContext()))
+        public ProductsController() : this(new FoodPlaceData(new FoodPlaceDbContext()))
         {
-
         }
+
         public ProductsController(IFoodPlaceData data) : base(data)
         {
         }
@@ -25,8 +25,16 @@ namespace FoodPlace.Web.Controllers
         public IHttpActionResult Get()
         {
             var product = new Product() { Name = "pepi", Price = 5.2m };
-            this.data.Products.Add(product);
-            this.data.SaveChanges();
+            try
+            {
+                this.data.Products.Add(product);
+                this.data.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+           
             return Ok(product);
         }
     }
