@@ -7,12 +7,16 @@
     {
         private ICollection<Product> products;
 
+        public Order()
+        {
+            this.products = new HashSet<Product>();
+        }
+
         public int Id { get; set; }
 
         public DateTime TimeOfOrder { get; set; }
 
         public int UserId { get; set; }
-
 
         public virtual User User { get; set; }
 
@@ -26,11 +30,6 @@
             {
                 this.products = value;
             }
-        }
-
-        public Order()
-        {
-            this.products = new HashSet<Product>();
-        }
+        } 
     }
 }

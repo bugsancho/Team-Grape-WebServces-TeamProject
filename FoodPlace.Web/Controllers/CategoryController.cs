@@ -12,23 +12,32 @@
     using FoodPlace.Models;
 
     [RoutePrefix("api/Categories")]
-    public class CategoryController : ApiController
+    public class CategoryController : BaseApiController
     {
         private const string CategoryNotFoundExceptionMassage = "No such ";
 
-        private IFoodPlaceData data;
-
-        public CategoryController()
-            : this(new FoodPlaceData())
-        { 
+        public CategoryController() 
+            :this(new FoodPlaceData( new FoodPlaceDbContext()))
+        {
         }
 
         public CategoryController(IFoodPlaceData data)
+            : base(data)
         {
-            this.data = data;
         }
 
-        [Route("All")]
+        //[HttpGet]
+        //public IHttpActionResult All()
+        //{
+        //    var categories = this.data
+        //        .Categories
+        //        .All()
+        //        .Select(CategoryViewModel.FromCategory);
+
+        //    return Ok(categories);
+        //}
+
+        [Route("GetCategories")]
         [HttpGet]
         public ICollection<Category> GetCategories() 
         {
@@ -58,7 +67,7 @@
         }
 
         [Route("Read")]
-        [HttpPost]
+        [HttpGet]
         public ICollection<CategoryViewModel> Read(CategoryViewModel category)
         {
             var categories = this.data.Categories.All().Select(CategoryViewModel.FromCategory).ToList();
@@ -74,7 +83,7 @@
                 return BadRequest(ModelState);
             }
 
-            var existingCategory = this.data.Categories.All().FirstOrDefault(a => a.Id == id);
+            var existingCategory = this.data.Categories.Find(id);
             if (existingCategory == null)
             {
                 return BadRequest(CategoryNotFoundExceptionMassage + "category.");
@@ -110,13 +119,13 @@
         [HttpPost]
         public IHttpActionResult AddProduct(int id, int productId)
         {
-            var category = this.data.Categories.All().FirstOrDefault(a => a.Id == id);
+            var category = this.data.Categories.Find(id);
             if (category == null)
             {
                 return BadRequest(CategoryNotFoundExceptionMassage + "category.");
             }
 
-            var product = this.data.Products.All().FirstOrDefault(b => b.Id == productId);
+            var product = this.data.Products.Find(id);
             if (product == null)
             {
                 return BadRequest(CategoryNotFoundExceptionMassage + "product.");
@@ -125,7 +134,7 @@
             category.Products.Add(product);
             this.data.Categories.SaveChanges();
 
-            return Ok();
+            return Ok(product);
         }
     }
 }
