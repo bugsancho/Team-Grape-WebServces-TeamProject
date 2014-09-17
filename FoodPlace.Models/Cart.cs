@@ -3,14 +3,12 @@
     using System;
     using System.Collections.Generic;
 
-    public class Order
+    public class Cart
     {
         private ICollection<Product> products;
 
         public int Id { get; set; }
-
-        public DateTime TimeOfOrder { get; set; }
-
+        
         public int UserId { get; set; }
 
         public virtual User User { get; set; }
@@ -27,7 +25,7 @@
             }
         }
 
-        public Order()
+        public Cart()
         {
             this.products = new HashSet<Product>();
         }
