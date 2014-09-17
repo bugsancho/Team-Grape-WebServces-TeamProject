@@ -24,18 +24,11 @@ namespace FoodPlace.Web.Controllers
         [HttpGet]
         public string Get()
         {
-            var product = new Product() { Name = "pepi", Price = 5.2m };
-            try
-            {
-                this.data.Products.Add(product);
-                this.data.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                return ex.Message + "\n" + ex.StackTrace;
-            }
+            var product = new Product() { Name = "pepi", Price = 5.2m, SizeUnit = 0 };
+          
 
-            return product.Name;
+
+            return product.SizeUnit.ToString();
         }
     }
 }
