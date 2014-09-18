@@ -50,16 +50,16 @@ namespace FoodPlace.Data.Migrations
             var userMgr = new UserManager<User>(new UserStore<User>(context));
             var appUser = new User
             {
-                UserName = "canEditUser@wingtiptoys.com",
-                Email = "canEditUser@wingtiptoys.com"
+                UserName = "admin@admin.com",
+                Email = "admin@admin.com"
             };
-            IdUserResult = userMgr.Create(appUser, "Pa$$word1");
+            IdUserResult = userMgr.Create(appUser, "admin");
 
             // If the new "canEdit" user was successfully created, 
             // add the "canEdit" user to the "canEdit" role. 
-            if (!userMgr.IsInRole(userMgr.FindByEmail("canEditUser@wingtiptoys.com").Id, "admin"))
+            if (!userMgr.IsInRole(userMgr.FindByEmail("admin@admin.com").Id, "admin"))
             {
-                IdUserResult = userMgr.AddToRole(userMgr.FindByEmail("canEditUser@wingtiptoys.com").Id, "admin");
+                IdUserResult = userMgr.AddToRole(userMgr.FindByEmail("admin@admin.com").Id, "admin");
             }
         }
 
