@@ -26,17 +26,6 @@
         {
         }
 
-        //[HttpGet]
-        //public IHttpActionResult All()
-        //{
-        //    var categories = this.data
-        //        .Categories
-        //        .All()
-        //        .Select(CategoryViewModel.FromCategory);
-
-        //    return Ok(categories);
-        //}
-
         [Route("GetCategories")]
        // [Authorize(Roles="admin")]
         [HttpGet]
@@ -115,24 +104,24 @@
 
         [Route("AddProduct")]
         [HttpPost]
-        public IHttpActionResult AddProduct(int id, int productId)
+        public IHttpActionResult AddProduct(int categoryId, int productId)
         {
-            var category = this.data.Categories.Find(id);
+            var category = this.data.Categories.Find(categoryId);
             if (category == null)
             {
                 return BadRequest(CategoryNotFoundExceptionMassage + "category.");
             }
 
-            var product = this.data.Products.Find(id);
+            var product = this.data.Products.Find(productId);
             if (product == null)
             {
                 return BadRequest(CategoryNotFoundExceptionMassage + "product.");
             }
 
             category.Products.Add(product);
-            this.data.Categories.SaveChanges();
+            this.data.SaveChanges();
 
-            return Ok(product);
+            return Ok();
         }
     }
 }
