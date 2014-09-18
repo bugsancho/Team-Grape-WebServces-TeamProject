@@ -16,7 +16,6 @@
 
     public class ProductsController : BaseApiController
     {
-        
         public ProductsController() : this(new FoodPlaceData(new FoodPlaceDbContext()), new AspNetUserIdProvider())
         {
         }
@@ -63,12 +62,7 @@
                                .All()
                                .Where(p => p.Name == name)
                                .Select(ProductModel.FromProduct);
-
-            if (products.Count() == 0)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-
+            
             return products.AsQueryable<ProductModel>();
         }
 
@@ -144,7 +138,7 @@
             var oldProductQuery = this.data.Products.All().Where(p => p.Id == id);
             if (oldProductQuery == null)
             {
-                return NotFound();
+                return BadRequest("Such product does not exist");
             }
 
             oldProductQuery.FirstOrDefault().Name = newName;
@@ -160,13 +154,13 @@
             var productQuery = this.data.Products.All().Where(p => p.Id == id);
             if (productQuery == null)
             {
-                return NotFound();
+                return BadRequest("Such product does not exist!");
             }
 
             var category = this.data.Categories.All().Where(c => c.Id == newCategoryId).FirstOrDefault();
             if (category == null)
             {
-                return NotFound();
+                return BadRequest("Such category does not exist!");
             }
 
             productQuery.FirstOrDefault().Category = category;
@@ -182,7 +176,7 @@
             var oldProductQuery = this.data.Products.All().Where(p => p.Id == id);
             if (oldProductQuery == null)
             {
-                return NotFound();
+                return BadRequest("Such product does not exist!");
             }
 
             oldProductQuery.FirstOrDefault().Description = newDescription;
@@ -198,7 +192,7 @@
             var oldProductQuery = this.data.Products.All().Where(p => p.Id == id);
             if (oldProductQuery == null)
             {
-                return NotFound();
+                return BadRequest("Such product does not exist!");
             }
 
             oldProductQuery.FirstOrDefault().Price = newPrice;
@@ -214,7 +208,7 @@
             var oldProductQuery = this.data.Products.All().Where(p => p.Id == id);
             if (oldProductQuery == null)
             {
-                return NotFound();
+                return BadRequest("Such product does not exist!");
             }
 
             oldProductQuery.FirstOrDefault().PictureUrl = newPictureUrl;
@@ -230,7 +224,7 @@
             var oldProductQuery = this.data.Products.All().Where(p => p.Id == id);
             if (oldProductQuery == null)
             {
-                return NotFound();
+                return BadRequest("Such product does not exist!");
             }
 
             oldProductQuery.FirstOrDefault().Size = newSize;
