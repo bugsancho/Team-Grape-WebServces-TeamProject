@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Web.Http;
-using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json.Serialization;
-using System.Web.Http.Cors;
-
-namespace FoodPlace.Web
+﻿namespace FoodPlace.Web
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Web.Http;
+    using Microsoft.Owin.Security.OAuth;
+    using Newtonsoft.Json.Serialization;
+    using System.Web.Http.Cors;
+    using System.Web.OData.Extensions;
+
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
@@ -21,6 +22,7 @@ namespace FoodPlace.Web
             config.EnableCors(cors);
             // Web API routes
             config.MapHttpAttributeRoutes();
+            config.AddODataQueryFilter();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

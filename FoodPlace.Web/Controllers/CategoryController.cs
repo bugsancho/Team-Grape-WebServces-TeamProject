@@ -10,7 +10,7 @@
     using FoodPlace.Data;
     using FoodPlace.Web.Models;
     using FoodPlace.Models;
-using FoodPlace.Web.Infrastructure;
+    using FoodPlace.Web.Infrastructure;
 
     [RoutePrefix("api/Categories")]
     public class CategoryController : BaseApiController
@@ -40,9 +40,9 @@ using FoodPlace.Web.Infrastructure;
         [Route("GetCategories")]
        // [Authorize(Roles="admin")]
         [HttpGet]
-        public ICollection<Category> GetCategories() 
+        public IQueryable<Category> GetCategories() 
         {
-            var categories = this.data.Categories.All().ToList();
+            var categories = this.data.Categories.All();
             return categories;
         }
 
@@ -69,15 +69,15 @@ using FoodPlace.Web.Infrastructure;
 
         [Route("Read")]
         [HttpGet]
-        public ICollection<CategoryViewModel> Read(CategoryViewModel category)
+        public IQueryable<CategoryViewModel> Read()
         {
-            var categories = this.data.Categories.All().Select(CategoryViewModel.FromCategory).ToList();
+            var categories = this.data.Categories.All().Select(CategoryViewModel.FromCategory);
             return categories;
         }
 
         [Route("Update")]
         [HttpPut]
-        public IHttpActionResult Update(int id, CategoryViewModel category)
+        public IHttpActionResult Update(int id, string newName)
         {
             if (!this.ModelState.IsValid)
             {
@@ -90,12 +90,9 @@ using FoodPlace.Web.Infrastructure;
                 return BadRequest(CategoryNotFoundExceptionMassage + "category.");
             }
 
-            existingCategory.Name = category.Name;
-            existingCategory.Products = category.Products;//not sure if have to update category products
-
+            existingCategory.Name = newName;
+          
             this.data.Categories.SaveChanges();
-
-            category.Id = id;
 
             return Ok(existingCategory);
         }

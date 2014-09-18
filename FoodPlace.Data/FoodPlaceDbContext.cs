@@ -8,11 +8,12 @@
 
     public class FoodPlaceDbContext : IdentityDbContext<User>
     {
-        public FoodPlaceDbContext() : base("FoodPlaceConnection", throwIfV1Schema: false)
+        public FoodPlaceDbContext()
+            : base("FoodPlaceConnection", throwIfV1Schema: false)
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<FoodPlaceDbContext, Configuration>());
         }
-        
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<User>()
