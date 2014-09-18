@@ -13,6 +13,7 @@
     using FoodPlace.Data;
     using FoodPlace.Models;
     using FoodPlace.Web.Infrastructure;
+    using System.Net;
 
     public class ProductsController : BaseApiController
     {
@@ -48,7 +49,7 @@
         }
 
         [HttpGet]
-        public IHttpActionResult GetByCategory(int categoryId)
+        public IQueryable<ProductModel> GetByCategory(int categoryId)
         {
             var products = this.data
                 .Products
@@ -58,14 +59,14 @@
 
             if (products.Count() == 0)
             {
-                return BadRequest("There are no products in this category");
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
-            return Ok(products);
+            return products.AsQueryable<ProductModel>();
         }
 
         [HttpGet]
-        public IHttpActionResult GetByName(string name)
+        public IQueryable<ProductModel> GetByName(string name)
         {
             var products = this.data
                 .Products
@@ -73,12 +74,12 @@
                 .Where(p => p.Name == name)
                 .Select(ProductModel.FromProduct);
 
-            if(products.Count() == 0)
+            if (products.Count() == 0)
             {
-                return BadRequest("There are no products with this name");
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
-            return Ok(products);
+            return products.AsQueryable<ProductModel>();
         }
 
         [HttpPost]
@@ -95,10 +96,10 @@
             {
                 Description = product.Description,
                 Name = product.Name,
-                Category = this.data.Categories.All().Where(c => c.Name == product).FirstOrDefault(),
+                Category = this.data.Categories.All().Where(c => c.Name == product.Name).FirstOrDefault(),
                 Price = product.Price,
                 Size = product.Size,
-                SizeUnit = (SizeUnit)Enum.Parse(typeof(SizeUnit), product.SizeUnit)                 
+                SizeUnit = (SizeUnit)Enum.Parse(typeof(SizeUnit), product.SizeUnit)
             };
 
             this.data.Products.Add(newProduct);
@@ -139,7 +140,7 @@
 
             productQuery.FirstOrDefault().Category = category;
             this.data.SaveChanges();
-            
+
             return Ok(productQuery.Select(ProductModel.FromProduct));
         }
 
