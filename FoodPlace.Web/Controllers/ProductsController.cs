@@ -82,6 +82,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult CreateProduct(ProductModel product)
         {
             if (!ModelState.IsValid)
@@ -89,13 +90,17 @@
                 return BadRequest(ModelState);
             }
 
-            // Can't get the category without making a request to the db, because the model uses string for Category
-            // The product model does not have pictureUrl it can't be added to the database
+            var category = this.data.Categories.All().Where(c => c.Name == product.Category).FirstOrDefault();
+            if (category == null)
+            {
+                return BadRequest("Invalid category");
+            }
+
             Product newProduct = new Product()
             {
                 Description = product.Description,
                 Name = product.Name,
-                Category = this.data.Categories.All().Where(c => c.Name == product.Category).FirstOrDefault(),
+                Category = category,
                 Price = product.Price,
                 Size = product.Size,
                 SizeUnit = (SizeUnit)Enum.Parse(typeof(SizeUnit), product.SizeUnit)
@@ -104,10 +109,45 @@
             this.data.Products.Add(newProduct);
             this.data.SaveChanges();
 
+            product.Id = newProduct.Id;
             return Ok(product);
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
+        public IHttpActionResult Update(int id, ProductModel product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingProduct = this.data.Products.All().FirstOrDefault(p => p.Id == id);
+            if (existingProduct == null)
+            {
+                return BadRequest("Such product doesn't exist!");
+            }
+
+            existingProduct.Name = product.Name;
+            existingProduct.Description = product.Description;
+            existingProduct.Price = product.Price;
+            existingProduct.Size = product.Size;
+            var category = this.data.Categories.All().Where(c => c.Name == c.Name).FirstOrDefault();
+            if (category == null)
+            {
+                return BadRequest("Invalid category");
+            }
+
+            existingProduct.Category = category;
+            existingProduct.SizeUnit = (SizeUnit)Enum.Parse(typeof(SizeUnit), product.SizeUnit);
+            this.data.SaveChanges();
+
+            product.Id = id;
+            return Ok(product);
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult ChangeProductName(int id, string newName)
         {
             var oldProductQuery = this.data.Products.All().Where(p => p.Id == id);
@@ -123,6 +163,7 @@
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult ChangeProductCategory(int id, int newCategoryId)
         {
             var productQuery = this.data.Products.All().Where(p => p.Id == id);
@@ -144,6 +185,7 @@
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult ChangeProductDescription(int id, string newDescription)
         {
             var oldProductQuery = this.data.Products.All().Where(p => p.Id == id);
@@ -159,6 +201,7 @@
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult ChangeProductPrice(int id, decimal newPrice)
         {
             var oldProductQuery = this.data.Products.All().Where(p => p.Id == id);
@@ -174,6 +217,7 @@
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult ChangeProductPicture(int id, string newPictureUrl)
         {
             var oldProductQuery = this.data.Products.All().Where(p => p.Id == id);
@@ -189,6 +233,7 @@
         }
 
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult ChangeProductSize(int id, int newSize)
         {
             var oldProductQuery = this.data.Products.All().Where(p => p.Id == id);
@@ -204,12 +249,13 @@
         }
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult DeleteProduct(int id)
         {
             var product = this.data.Products.All().Where(p => p.Id == id).FirstOrDefault();
             if (product == null)
             {
-                return NotFound();
+                return BadRequest("Such product doesn't exist");
             }
 
             this.data.Products.Delete(product);
