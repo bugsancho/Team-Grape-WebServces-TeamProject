@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodPlace.Data", "FoodPlace
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodPlace.Web", "FoodPlace.Web\FoodPlace.Web.csproj", "{45397CDA-734C-492F-B7E8-69627F6F3C5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodPlace.Tests", "FoodPlace.Tests\FoodPlace.Tests.csproj", "{57AC5394-998F-4DA6-9AFD-B2F885925A95}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{45397CDA-734C-492F-B7E8-69627F6F3C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45397CDA-734C-492F-B7E8-69627F6F3C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45397CDA-734C-492F-B7E8-69627F6F3C5E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57AC5394-998F-4DA6-9AFD-B2F885925A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57AC5394-998F-4DA6-9AFD-B2F885925A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57AC5394-998F-4DA6-9AFD-B2F885925A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57AC5394-998F-4DA6-9AFD-B2F885925A95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

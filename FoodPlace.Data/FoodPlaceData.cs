@@ -7,11 +7,15 @@
     using FoodPlace.Data.Repositories;
     using FoodPlace.Models;
 
-    // TODO add other collections to the Unit of work
     public class FoodPlaceData : IFoodPlaceData 
     {
         private DbContext context;
         private IDictionary<Type, object> repositories;
+
+        public FoodPlaceData()
+            : this(new FoodPlaceDbContext())
+        {
+        }
 
         public FoodPlaceData(DbContext context)
         {
@@ -34,6 +38,30 @@
                 return this.GetRepository<Order>();
             }
         }
+
+        public IRepository<Cart> Carts
+        {
+            get
+            {
+                return this.GetRepository<Cart>();
+            }
+        }
+
+        public IRepository<Category> Categories
+        {
+            get
+            {
+                return this.GetRepository<Category>();
+            }
+        }
+
+        //public IRepository<User> Users // not sure what User class is doing and if will work here
+        //{
+        //    get
+        //    {
+        //        return this.GetRepository<User>();
+        //    }
+        //}
 
         public int SaveChanges()
         {

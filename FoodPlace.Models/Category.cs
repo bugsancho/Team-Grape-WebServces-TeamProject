@@ -1,26 +1,21 @@
 ﻿namespace FoodPlace.Models
 {
-    using System;
     using System.Collections.Generic;
 
-    public class Order
+    public class Category
     {
         private ICollection<Product> products;
 
-        public Order()
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public Category()
         {
             this.products = new HashSet<Product>();
         }
 
-        public int Id { get; set; }
-
-        public DateTime TimeOfOrder { get; set; }
-
-        public int UserId { get; set; }
-
-        public virtual User User { get; set; }
-
-        public virtual ICollection<Product> Products
+        public ICollection<Product> Products
         {
             get
             {
@@ -30,6 +25,6 @@
             {
                 this.products = value;
             }
-        } 
+        }
     }
 }

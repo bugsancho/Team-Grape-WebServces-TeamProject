@@ -8,10 +8,10 @@
 
     public class FoodPlaceDbContext : IdentityDbContext<User>
     {
-        //TODO add sets for other items
         public FoodPlaceDbContext() : base("FoodPlaceConnection", throwIfV1Schema: false)
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<FoodPlaceDbContext,Configuration>());
+            
         }
 
         public static FoodPlaceDbContext Create()
@@ -22,5 +22,11 @@
         public IDbSet<Product> Products { get; set; }
 
         public IDbSet<Order> Orders { get; set; }
+
+        public IDbSet<Category> Categories { get; set; }
+
+        public IDbSet<Cart> Carts { get; set; }
+
+       // public IDbSet<User> Users { get; set; } // not sure if should be here
     }
 }
