@@ -14,7 +14,7 @@ namespace FoodPlace.Web.Controllers
 
     public class ProductsController : BaseApiController
     {
-        private IUserIdProvider userIdProvider;
+        
 
         public ProductsController()
             : this(new FoodPlaceData(new FoodPlaceDbContext()), new AspNetUserIdProvider())
@@ -22,9 +22,8 @@ namespace FoodPlace.Web.Controllers
         }
 
         public ProductsController(IFoodPlaceData data, IUserIdProvider userIdProvider)
-            : base(data)
+            : base(data, userIdProvider)
         {
-            this.userIdProvider = userIdProvider;
         }
 
         [HttpGet]

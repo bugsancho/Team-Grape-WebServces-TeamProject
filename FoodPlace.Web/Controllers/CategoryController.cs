@@ -10,6 +10,7 @@
     using FoodPlace.Data;
     using FoodPlace.Web.Models;
     using FoodPlace.Models;
+using FoodPlace.Web.Infrastructure;
 
     [RoutePrefix("api/Categories")]
     public class CategoryController : BaseApiController
@@ -17,12 +18,11 @@
         private const string CategoryNotFoundExceptionMassage = "No such ";
 
         public CategoryController() 
-            :this(new FoodPlaceData( new FoodPlaceDbContext()))
+            :this(new FoodPlaceData( new FoodPlaceDbContext()), new AspNetUserIdProvider())
         {
         }
 
-        public CategoryController(IFoodPlaceData data)
-            : base(data)
+        public CategoryController(IFoodPlaceData data, IUserIdProvider idProvider) : base(data, idProvider)
         {
         }
 

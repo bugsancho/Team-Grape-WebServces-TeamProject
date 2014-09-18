@@ -6,23 +6,37 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-
     using FoodPlace.Data;
     using FoodPlace.Models;
+    using FoodPlace.Web.Infrastructure;
 
     [RoutePrefix("api/Carts")]
     public class CartController : BaseApiController
     {
         private const string CartNotFoundExceptionMassage = "No such ";
  
-        public CartController() 
-            :this(new FoodPlaceData( new FoodPlaceDbContext()))
+        public CartController() : this(new FoodPlaceData(new FoodPlaceDbContext()), new AspNetUserIdProvider())
         {
         }
 
-        public CartController(IFoodPlaceData data)
-            : base(data)
+        public CartController(IFoodPlaceData data, IUserIdProvider idProvider) : base(data, idProvider)
         {
+        }
+
+        [Authorize]
+        [Route("Get")]
+        [HttpGet]
+        public IHttpActionResult GetCartId()
+        {
+            var userId = this.userIdProvider.GetUserId();
+            var user = this.data.Users.Find(userId);
+
+            if (user.Cart == null)
+            {
+                user.Cart = new Cart();
+            }
+            this.data.SaveChanges(); 
+            return Ok(user.Cart.Id);
         }
 
         [Route("AddProduct")]
@@ -83,7 +97,7 @@
             {
                 Products = cart.Products,
                 TimeOfOrder = DateTime.Now,
-                UserId = cart.UserId,       
+                UserId = cart.UserId,
             };
 
             this.data.Orders.Add(newOrder);

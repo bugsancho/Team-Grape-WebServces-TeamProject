@@ -5,17 +5,18 @@ using System.Web;
 using FoodPlace.Data;
 using FoodPlace.Models;
 using System.Web.Http;
+using FoodPlace.Web.Infrastructure;
 
 namespace FoodPlace.Web.Controllers
 {
     
     public class OrderController : BaseApiController
     {
-         public OrderController() :this(new FoodPlaceData( new FoodPlaceDbContext()))
+         public OrderController() :this(new FoodPlaceData( new FoodPlaceDbContext()), new AspNetUserIdProvider())
         {
 
         }
-        public OrderController(IFoodPlaceData data) : base(data)
+        public OrderController(IFoodPlaceData data, IUserIdProvider idProvider) : base(data, idProvider)
         {
         }
          [HttpGet]

@@ -13,7 +13,7 @@ namespace FoodPlace.Data
 
         IRepository<Category> Categories { get; }
 
-      //  IRepository<User> Users { get; }// mb should be removed
+        IRepository<User> Users { get; }// mb should be removed
 
         int SaveChanges();
     }
