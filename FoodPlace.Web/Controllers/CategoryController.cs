@@ -38,6 +38,7 @@ using FoodPlace.Web.Infrastructure;
         //}
 
         [Route("GetCategories")]
+       // [Authorize(Roles="admin")]
         [HttpGet]
         public ICollection<Category> GetCategories() 
         {

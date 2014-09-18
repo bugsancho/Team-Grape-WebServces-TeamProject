@@ -30,7 +30,6 @@
         {
             var userId = this.userIdProvider.GetUserId();
             var user = this.data.Users.Find(userId);
-
             if (user.Cart == null)
             {
                 user.Cart = new Cart();

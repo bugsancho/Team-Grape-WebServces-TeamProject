@@ -4,8 +4,10 @@ namespace FoodPlace.Data.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-
+    using System.Web.Security;
     using FoodPlace.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
 
     internal sealed class Configuration : DbMigrationsConfiguration<FoodPlace.Data.FoodPlaceDbContext>
     {
@@ -19,6 +21,46 @@ namespace FoodPlace.Data.Migrations
         {
             this.SeedCategories(context);
             this.SeedProducts(context);
+            this.SeedAdminUser(context);
+        }
+ 
+        private void SeedAdminUser(FoodPlaceDbContext context)
+        {
+            IdentityResult IdRoleResult;
+            IdentityResult IdUserResult;
+
+            // Create a RoleStore object by using the ApplicationDbContext object. 
+            // The RoleStore is only allowed to contain IdentityRole objects.
+            var roleStore = new RoleStore<IdentityRole>(context);
+
+            // Create a RoleManager object that is only allowed to contain IdentityRole objects.
+            // When creating the RoleManager object, you pass in (as a parameter) a new RoleStore object. 
+            var roleMgr = new RoleManager<IdentityRole>(roleStore);
+
+            // Then, you create the "canEdit" role if it doesn't already exist.
+            if (!roleMgr.RoleExists("admin"))
+            {
+                IdRoleResult = roleMgr.Create(new IdentityRole { Name = "admin" });
+            }
+
+            // Create a UserManager object based on the UserStore object and the ApplicationDbContext  
+            // object. Note that you can create new objects and use them as parameters in
+            // a single line of code, rather than using multiple lines of code, as you did
+            // for the RoleManager object.
+            var userMgr = new UserManager<User>(new UserStore<User>(context));
+            var appUser = new User
+            {
+                UserName = "canEditUser@wingtiptoys.com",
+                Email = "canEditUser@wingtiptoys.com"
+            };
+            IdUserResult = userMgr.Create(appUser, "Pa$$word1");
+
+            // If the new "canEdit" user was successfully created, 
+            // add the "canEdit" user to the "canEdit" role. 
+            if (!userMgr.IsInRole(userMgr.FindByEmail("canEditUser@wingtiptoys.com").Id, "admin"))
+            {
+                IdUserResult = userMgr.AddToRole(userMgr.FindByEmail("canEditUser@wingtiptoys.com").Id, "admin");
+            }
         }
 
         private void SeedProducts(FoodPlaceDbContext context)
@@ -29,14 +71,14 @@ namespace FoodPlace.Data.Migrations
             }
 
             context.Products.Add(new Product
-                {
-                    Name = "Mexicana",
-                    Price = 7.46m,
-                    Description = "tomato sauce, ham, peppers, beans, corn, onion",
-                    CategoryId = 1,
-                    Size = 500,
-                    SizeUnit = SizeUnit.Grams
-                });
+            {
+                Name = "Mexicana",
+                Price = 7.46m,
+                Description = "tomato sauce, ham, peppers, beans, corn, onion",
+                CategoryId = 1,
+                Size = 500,
+                SizeUnit = SizeUnit.Grams
+            });
 
             context.Products.Add(new Product
             {
@@ -110,7 +152,6 @@ namespace FoodPlace.Data.Migrations
             {
                 Name = "dessert"
             });
-
 
             context.Categories.Add(new Category
             {

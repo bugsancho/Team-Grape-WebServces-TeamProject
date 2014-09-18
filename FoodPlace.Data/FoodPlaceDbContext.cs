@@ -10,7 +10,7 @@
     {
         public FoodPlaceDbContext() : base("FoodPlaceConnection", throwIfV1Schema: false)
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<FoodPlaceDbContext>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<FoodPlaceDbContext, Configuration>());
         }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -18,7 +18,6 @@
             //modelBuilder.Entity<User>()
             //            .HasOptional(f => f.Cart)
             //            .WithRequired(s => s.User);
-
             base.OnModelCreating(modelBuilder);
         }
 
