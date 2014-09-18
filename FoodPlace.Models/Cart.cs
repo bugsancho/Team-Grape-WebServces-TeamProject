@@ -1,7 +1,10 @@
 ﻿namespace FoodPlace.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Cart
     {
@@ -10,12 +13,15 @@
         public Cart()
         {
             this.products = new HashSet<Product>();
+            this.Id = Guid.NewGuid().ToString();
         }
 
-        public int Id { get; set; }
+        [Key, ForeignKey("User")]
+        public string Id { get; set; }
         
-        public int UserId { get; set; }
-
+        public string UserId { get; set; }
+        
+        [JsonIgnore]
         public virtual User User { get; set; }
 
         public virtual ICollection<Product> Products

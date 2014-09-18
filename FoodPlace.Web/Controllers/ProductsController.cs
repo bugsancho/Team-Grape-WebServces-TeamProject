@@ -17,7 +17,7 @@
 
     public class ProductsController : BaseApiController
     {
-        private IUserIdProvider userIdProvider;
+
 
         public ProductsController()
             : this(new FoodPlaceData(new FoodPlaceDbContext()), new AspNetUserIdProvider())
@@ -25,9 +25,8 @@
         }
 
         public ProductsController(IFoodPlaceData data, IUserIdProvider userIdProvider)
-            : base(data)
+            : base(data, userIdProvider)
         {
-            this.userIdProvider = userIdProvider;
         }
 
         [HttpGet]
@@ -96,7 +95,7 @@
             {
                 Description = product.Description,
                 Name = product.Name,
-                Category = this.data.Categories.All().Where(c => c.Name == product.Name).FirstOrDefault(),
+                Category = this.data.Categories.All().Where(c => c.Name == product.Category).FirstOrDefault(),
                 Price = product.Price,
                 Size = product.Size,
                 SizeUnit = (SizeUnit)Enum.Parse(typeof(SizeUnit), product.SizeUnit)

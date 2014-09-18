@@ -9,6 +9,7 @@
     using System.Web;
     using System.Web.Http;
     using System.Web.Http.ModelBinding;
+    using FoodPlace.Data;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity.Owin;
@@ -19,15 +20,20 @@
     using FoodPlace.Web.Providers;
     using FoodPlace.Web.Results;
     using FoodPlace.Models;
+    using FoodPlace.Web.Infrastructure;
 
     [Authorize]
     [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
+    public class AccountController : BaseApiController
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccountController(IFoodPlaceData data, IUserIdProvider idProvider) : base(data, idProvider)
+        {
+        }
+        
+        public AccountController() : this(new FoodPlaceData(),new AspNetUserIdProvider())
         {
         }
 
@@ -167,9 +173,9 @@
 
             AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
 
-            if (ticket == null || ticket.Identity == null || (ticket.Properties != null
-                && ticket.Properties.ExpiresUtc.HasValue
-                && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
+            if (ticket == null || ticket.Identity == null || (ticket.Properties != null &&
+                                                              ticket.Properties.ExpiresUtc.HasValue &&
+                                                              ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
             {
                 return BadRequest("External login failure.");
             }
@@ -260,7 +266,7 @@
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                 
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
@@ -328,8 +334,11 @@
             {
                 return BadRequest(ModelState);
             }
+            // var cart = new Cart();
 
-            var user = new User() { UserName = model.Email, Email = model.Email };
+            var user = new User() { UserName = model.Email, Email = model.Email, };
+           
+            //this.data.SaveChanges();
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
@@ -337,7 +346,8 @@
             {
                 return GetErrorResult(result);
             }
-
+            // cart.User = user;
+            //this.data.Carts.Add(cart);
             return Ok();
         }
 
@@ -388,7 +398,10 @@
 
         private IAuthenticationManager Authentication
         {
-            get { return Request.GetOwinContext().Authentication; }
+            get
+            {
+                return Request.GetOwinContext().Authentication;
+            }
         }
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
@@ -423,7 +436,9 @@
         private class ExternalLoginData
         {
             public string LoginProvider { get; set; }
+
             public string ProviderKey { get; set; }
+
             public string UserName { get; set; }
 
             public IList<Claim> GetClaims()
@@ -448,8 +463,8 @@
 
                 Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
 
-                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer)
-                    || String.IsNullOrEmpty(providerKeyClaim.Value))
+                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer) ||
+                    String.IsNullOrEmpty(providerKeyClaim.Value))
                 {
                     return null;
                 }
@@ -488,7 +503,7 @@
                 return HttpServerUtility.UrlTokenEncode(data);
             }
         }
-
+        
         #endregion
     }
 }

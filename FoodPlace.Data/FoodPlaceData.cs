@@ -55,13 +55,13 @@
             }
         }
 
-        //public IRepository<User> Users // not sure what User class is doing and if will work here
-        //{
-        //    get
-        //    {
-        //        return this.GetRepository<User>();
-        //    }
-        //}
+        public IRepository<User> Users // not sure what User class is doing and if will work here
+        {
+            get
+            {
+                return this.GetRepository<User>();
+            }
+        }
 
         public int SaveChanges()
         {
