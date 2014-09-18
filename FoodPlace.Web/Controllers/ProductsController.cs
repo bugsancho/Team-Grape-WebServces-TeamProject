@@ -94,7 +94,7 @@
             {
                 Description = product.Description,
                 Name = product.Name,
-                Category = this.data.Categories.All().Where(c => c.Name == product).FirstOrDefault(),
+                Category = this.data.Categories.All().Where(c => c.Name == product.Category).FirstOrDefault(),
                 Price = product.Price,
                 Size = product.Size,
                 SizeUnit = (SizeUnit)Enum.Parse(typeof(SizeUnit), product.SizeUnit)                 
