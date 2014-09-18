@@ -56,17 +56,7 @@ namespace FoodPlace.Data.Migrations
                 CategoryId = 1,
                 Size = 700,
                 SizeUnit = SizeUnit.Grams
-            });
-
-            context.Products.Add(new Product
-            {
-                Name = "Mexicana",
-                Price = 7.46m,
-                Description = "tomato sauce, ham, peppers, beans, corn, onion",
-                CategoryId = 1,
-                Size = 500,
-                SizeUnit = SizeUnit.Grams
-            });
+            });       
 
             context.Products.Add(new Product
             {

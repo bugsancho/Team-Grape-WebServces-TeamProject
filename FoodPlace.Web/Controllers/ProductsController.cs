@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using FoodPlace.Data;
-using System.Web.Http;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-namespace FoodPlace.Web.Controllers
+﻿namespace FoodPlace.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Http;
+    using FoodPlace.Web.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNet.Identity.Owin;
+
+    using FoodPlace.Data;
     using FoodPlace.Models;
     using FoodPlace.Web.Infrastructure;
 
@@ -28,11 +30,55 @@ namespace FoodPlace.Web.Controllers
         }
 
         [HttpGet]
-        public string Create()
+        public IHttpActionResult GetProduct(int id)
         {
-            var product = new Product() { Name = "pepi", Price = 5.2m, SizeUnit = 0 };
-          
-            return product.SizeUnit.ToString();
+            var product = this.data
+                .Products
+                .All()
+                .Where(p => p.Id == id)
+                .Select(ProductModel.FromProduct)
+                .FirstOrDefault();
+
+            if (product == null)
+            {
+                return BadRequest("Product does not exist - invalid id");
+            }
+
+            return Ok(product);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetByCategory(int categoryId)
+        {
+            var products = this.data
+                .Products
+                .All()
+                .Where(p => p.CategoryId == categoryId)
+                .Select(ProductModel.FromProduct);
+
+            if (products.Count() == 0)
+            {
+                return BadRequest("There are no products in this category");
+            }
+
+            return Ok(products);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetByName(string name)
+        {
+            var products = this.data
+                .Products
+                .All()
+                .Where(p => p.Name == name)
+                .Select(ProductModel.FromProduct);
+
+            if(products.Count() == 0)
+            {
+                return BadRequest("There are no products with this name");
+            }
+
+            return Ok(products);
         }
     }
 }
