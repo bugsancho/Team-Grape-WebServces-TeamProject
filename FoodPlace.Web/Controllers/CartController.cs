@@ -40,18 +40,18 @@
 
         [Route("AddProduct")]
         [HttpPut]//or mb post
-        public IHttpActionResult AddProduct(int cartId, int productId)
+        public IHttpActionResult AddProduct(int productId)
         {
-            var cart = this.data.Carts.Find(cartId);
+            var cart = this.data.Carts.Find(this.GetCartId());
             if (cart == null)
             {
-                throw new ArgumentNullException(CartNotFoundExceptionMassage + "card");
+                BadRequest(CartNotFoundExceptionMassage + "card");
             }
 
             var product = this.data.Products.Find(productId);
             if (product == null)
             {
-                throw new ArgumentNullException(CartNotFoundExceptionMassage + "product");
+                BadRequest(CartNotFoundExceptionMassage + "product");
             }
 
             cart.Products.Add(product);
@@ -62,9 +62,9 @@
 
         [Route("RemoveProduct")]
         [HttpPut]//not sure if should be HttpDelete
-        public IHttpActionResult RemoveProduct(int cartId, int productId)
+        public IHttpActionResult RemoveProduct(int productId)
         {
-            var cart = this.data.Carts.Find(cartId);
+            var cart = this.data.Carts.Find(this.GetCartId());
             if (cart == null)
             {
                 throw new ArgumentNullException(CartNotFoundExceptionMassage + "card");
@@ -84,9 +84,9 @@
 
         [Route("BuyCart")]
         [HttpPost]
-        public IHttpActionResult BuyCart(int cartId)
+        public IHttpActionResult BuyCart()
         {
-            var cart = this.data.Carts.Find(cartId);
+            var cart = this.data.Carts.Find(this.GetCartId());
             if (cart == null)
             {
                 throw new ArgumentNullException(CartNotFoundExceptionMassage + "card");
@@ -107,9 +107,9 @@
 
         [Route("ClearCart")]
         [HttpPost]
-        public IHttpActionResult ClearCart(int cartId)
+        public IHttpActionResult ClearCart()
         {
-            var cart = this.data.Carts.Find(cartId);
+            var cart = this.data.Carts.Find(this.GetCartId());
             if (cart == null)
             {
                 throw new ArgumentNullException(CartNotFoundExceptionMassage + "card");
