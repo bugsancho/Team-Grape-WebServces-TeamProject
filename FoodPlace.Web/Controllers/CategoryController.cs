@@ -39,9 +39,9 @@
 
         [Route("GetCategories")]
         [HttpGet]
-        public ICollection<Category> GetCategories() 
+        public IQueryable<Category> GetCategories() 
         {
-            var categories = this.data.Categories.All().ToList();
+            var categories = this.data.Categories.All();
             return categories;
         }
 
@@ -68,9 +68,9 @@
 
         [Route("Read")]
         [HttpGet]
-        public ICollection<CategoryViewModel> Read()
+        public IQueryable<CategoryViewModel> Read()
         {
-            var categories = this.data.Categories.All().Select(CategoryViewModel.FromCategory).ToList();
+            var categories = this.data.Categories.All().Select(CategoryViewModel.FromCategory);
             return categories;
         }
 
