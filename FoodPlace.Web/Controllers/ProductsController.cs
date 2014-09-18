@@ -7,27 +7,31 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
-using FoodPlace.Models;
-
 namespace FoodPlace.Web.Controllers
 {
+    using FoodPlace.Models;
+    using FoodPlace.Web.Infrastructure;
+
     public class ProductsController : BaseApiController
     {
-        public ProductsController() : this(new FoodPlaceData(new FoodPlaceDbContext()))
+        private IUserIdProvider userIdProvider;
+
+        public ProductsController()
+            : this(new FoodPlaceData(new FoodPlaceDbContext()), new AspNetUserIdProvider())
         {
         }
 
-        public ProductsController(IFoodPlaceData data) : base(data)
+        public ProductsController(IFoodPlaceData data, IUserIdProvider userIdProvider)
+            : base(data)
         {
+            this.userIdProvider = userIdProvider;
         }
 
         [HttpGet]
-        public string Get()
+        public string Create()
         {
             var product = new Product() { Name = "pepi", Price = 5.2m, SizeUnit = 0 };
           
-
-
             return product.SizeUnit.ToString();
         }
     }
