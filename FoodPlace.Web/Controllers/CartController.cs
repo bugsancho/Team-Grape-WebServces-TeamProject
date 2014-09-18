@@ -34,24 +34,26 @@
             {
                 user.Cart = new Cart();
             }
+
             this.data.SaveChanges(); 
             return Ok(user.Cart.Id);
         }
 
         [Route("AddProduct")]
-        [HttpPut]//or mb post
+        [Authorize]
+        [HttpPut]
         public IHttpActionResult AddProduct(int productId)
         {
             var cart = this.data.Carts.Find(this.GetCartId());
             if (cart == null)
             {
-                BadRequest(CartNotFoundExceptionMassage + "card");
+                return BadRequest(CartNotFoundExceptionMassage + "card");
             }
 
             var product = this.data.Products.Find(productId);
             if (product == null)
             {
-                BadRequest(CartNotFoundExceptionMassage + "product");
+                return BadRequest(CartNotFoundExceptionMassage + "product");
             }
 
             cart.Products.Add(product);
@@ -61,19 +63,19 @@
         }
 
         [Route("RemoveProduct")]
-        [HttpPut]//not sure if should be HttpDelete
+        [HttpPut]
         public IHttpActionResult RemoveProduct(int productId)
         {
             var cart = this.data.Carts.Find(this.GetCartId());
             if (cart == null)
             {
-                throw new ArgumentNullException(CartNotFoundExceptionMassage + "card");
+                return BadRequest(CartNotFoundExceptionMassage + "card");
             }
 
             var product = this.data.Products.Find(productId);
             if (product == null)
             {
-                throw new ArgumentNullException(CartNotFoundExceptionMassage + "product");
+                return BadRequest(CartNotFoundExceptionMassage + "product");
             }
 
             cart.Products.Remove(product);
@@ -89,7 +91,7 @@
             var cart = this.data.Carts.Find(this.GetCartId());
             if (cart == null)
             {
-                throw new ArgumentNullException(CartNotFoundExceptionMassage + "card");
+                return BadRequest(CartNotFoundExceptionMassage + "card");
             }
 
             var newOrder = new Order
@@ -112,7 +114,7 @@
             var cart = this.data.Carts.Find(this.GetCartId());
             if (cart == null)
             {
-                throw new ArgumentNullException(CartNotFoundExceptionMassage + "card");
+                return BadRequest(CartNotFoundExceptionMassage + "card");
             }
 
             cart.Products.Clear();

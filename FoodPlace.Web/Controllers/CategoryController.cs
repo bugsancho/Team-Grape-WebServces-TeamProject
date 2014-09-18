@@ -6,7 +6,6 @@
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
-
     using FoodPlace.Data;
     using FoodPlace.Web.Models;
     using FoodPlace.Models;
@@ -17,13 +16,11 @@
     {
         private const string CategoryNotFoundExceptionMassage = "No such ";
 
-        public CategoryController()
-            : this(new FoodPlaceData(new FoodPlaceDbContext()), new AspNetUserIdProvider())
+        public CategoryController() : this(new FoodPlaceData(new FoodPlaceDbContext()), new AspNetUserIdProvider())
         {
         }
 
-        public CategoryController(IFoodPlaceData data, IUserIdProvider idProvider)
-            : base(data, idProvider)
+        public CategoryController(IFoodPlaceData data, IUserIdProvider idProvider) : base(data, idProvider)
         {
         }
 

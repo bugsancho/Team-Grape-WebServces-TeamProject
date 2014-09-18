@@ -21,8 +21,8 @@
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
-            var cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(cors);
+           // var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors();
             // Web API routes
             config.MapHttpAttributeRoutes();
             config.AddODataQueryFilter();

@@ -9,7 +9,6 @@
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity.Owin;
-
     using FoodPlace.Data;
     using FoodPlace.Models;
     using FoodPlace.Web.Infrastructure;
@@ -17,15 +16,12 @@
 
     public class ProductsController : BaseApiController
     {
-
-
-        public ProductsController()
-            : this(new FoodPlaceData(new FoodPlaceDbContext()), new AspNetUserIdProvider())
+        
+        public ProductsController() : this(new FoodPlaceData(new FoodPlaceDbContext()), new AspNetUserIdProvider())
         {
         }
 
-        public ProductsController(IFoodPlaceData data, IUserIdProvider userIdProvider)
-            : base(data, userIdProvider)
+        public ProductsController(IFoodPlaceData data, IUserIdProvider userIdProvider) : base(data, userIdProvider)
         {
         }
 
@@ -33,11 +29,11 @@
         public IHttpActionResult GetProduct(int id)
         {
             var product = this.data
-                .Products
-                .All()
-                .Where(p => p.Id == id)
-                .Select(ProductModel.FromProduct)
-                .FirstOrDefault();
+            .Products
+                              .All()
+                              .Where(p => p.Id == id)
+                              .Select(ProductModel.FromProduct)
+                              .FirstOrDefault();
 
             if (product == null)
             {
@@ -51,15 +47,10 @@
         public IQueryable<ProductModel> GetByCategory(int categoryId)
         {
             var products = this.data
-                .Products
-                .All()
-                .Where(p => p.CategoryId == categoryId)
-                .Select(ProductModel.FromProduct);
-
-            if (products.Count() == 0)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
+            .Products
+                               .All()
+                               .Where(p => p.CategoryId == categoryId)
+                               .Select(ProductModel.FromProduct);
 
             return products.AsQueryable<ProductModel>();
         }
@@ -68,10 +59,10 @@
         public IQueryable<ProductModel> GetByName(string name)
         {
             var products = this.data
-                .Products
-                .All()
-                .Where(p => p.Name == name)
-                .Select(ProductModel.FromProduct);
+            .Products
+                               .All()
+                               .Where(p => p.Name == name)
+                               .Select(ProductModel.FromProduct);
 
             if (products.Count() == 0)
             {
