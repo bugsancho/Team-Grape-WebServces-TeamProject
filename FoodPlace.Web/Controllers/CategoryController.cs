@@ -27,7 +27,7 @@
         {
         }
 
-        [Route("Read")]
+        [Route("GetCategories")]
         [HttpGet]
         public IQueryable<CategoryViewModel> All()
         {
