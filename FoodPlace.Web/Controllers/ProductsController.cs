@@ -216,7 +216,7 @@
 
             return Ok(oldProductQuery.Select(ProductModel.FromProduct));
         }
-
+            
         [HttpPut]
         [Authorize(Roles = "admin")]
         public IHttpActionResult ChangeProductSize(int id, int newSize)
