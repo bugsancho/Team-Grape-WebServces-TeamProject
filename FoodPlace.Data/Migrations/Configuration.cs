@@ -21,7 +21,7 @@ namespace FoodPlace.Data.Migrations
         {
             this.SeedCategories(context);
             this.SeedProducts(context);
-            this.SeedAdminUser(context);
+            //this.SeedAdminUser(context);
         }
  
         private void SeedAdminUser(FoodPlaceDbContext context)

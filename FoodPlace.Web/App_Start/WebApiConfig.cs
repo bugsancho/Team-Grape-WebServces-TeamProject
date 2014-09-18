@@ -8,7 +8,9 @@
     using Microsoft.Owin.Security.OAuth;
     using Newtonsoft.Json.Serialization;
     using System.Web.Http.Cors;
+    using System.Web.Http.Cors.Tracing;
     using System.Web.OData.Extensions;
+    using System.Net.Http.Headers;
 
     public static class WebApiConfig
     {
@@ -18,6 +20,7 @@
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
             // Web API routes
