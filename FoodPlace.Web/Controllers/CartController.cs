@@ -9,10 +9,18 @@
     using FoodPlace.Data;
     using FoodPlace.Models;
     using FoodPlace.Web.Infrastructure;
+    using Newtonsoft.Json;
 
     [RoutePrefix("api/Carts")]
     public class CartController : BaseApiController
     {
+        static PubnubAPI pubnub = new PubnubAPI(
+               "pub-c-02dee9ae-9627-4fb7-a486-a5cdf9df9749",               // PUBLISH_KEY
+               "sub-c-04a5c868-0374-11e3-bde1-02ee2ddab7fe",               // SUBSCRIBE_KEY
+               "sec-c-NTUzNGMyMjgtNDhkZS00ZTMwLWEyYTEtNGY5ZjYyOGU5ODY2",   // SECRET_KEY
+               true                                                        // SSL_ON?
+           );
+
         private const string CartNotFoundExceptionMassage = "No such ";
  
         public CartController() : this(new FoodPlaceData(new FoodPlaceDbContext()), new AspNetUserIdProvider())
@@ -104,6 +112,9 @@
             this.data.Orders.Add(newOrder);
             this.data.Orders.SaveChanges();
 
+            string orderAsJson = JsonConvert.SerializeObject(newOrder);
+
+            pubnub.Publish("admin", orderAsJson);
             return Ok(newOrder);
         }
 
@@ -122,5 +133,7 @@
 
             return Ok();
         }
+
+        
     }
 }

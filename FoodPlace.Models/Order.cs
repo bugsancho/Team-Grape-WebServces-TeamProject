@@ -30,6 +30,8 @@
             {
                 this.products = value;
             }
-        } 
+        }
+
+        
     }
 }
