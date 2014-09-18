@@ -17,36 +17,26 @@
     {
         private const string CategoryNotFoundExceptionMassage = "No such ";
 
-        public CategoryController() 
-            :this(new FoodPlaceData( new FoodPlaceDbContext()), new AspNetUserIdProvider())
+        public CategoryController()
+            : this(new FoodPlaceData(new FoodPlaceDbContext()), new AspNetUserIdProvider())
         {
         }
 
-        public CategoryController(IFoodPlaceData data, IUserIdProvider idProvider) : base(data, idProvider)
+        public CategoryController(IFoodPlaceData data, IUserIdProvider idProvider)
+            : base(data, idProvider)
         {
         }
 
-        //[HttpGet]
-        //public IHttpActionResult All()
-        //{
-        //    var categories = this.data
-        //        .Categories
-        //        .All()
-        //        .Select(CategoryViewModel.FromCategory);
-
-        //    return Ok(categories);
-        //}
-
-        [Route("GetCategories")]
-       // [Authorize(Roles="admin")]
+        [Route("Read")]
         [HttpGet]
-        public IQueryable<Category> GetCategories() 
+        public IQueryable<CategoryViewModel> All()
         {
-            var categories = this.data.Categories.All();
+            var categories = this.data.Categories.All().Select(CategoryViewModel.FromCategory);
             return categories;
         }
 
         [Route("Create")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IHttpActionResult Create(CategoryViewModel category)
         {
@@ -57,7 +47,7 @@
 
             var newCategory = new Category
             {
-                Name = category.Name, 
+                Name = category.Name,
             };
 
             this.data.Categories.Add(newCategory);
@@ -67,17 +57,10 @@
             return Ok(newCategory);
         }
 
-        [Route("Read")]
-        [HttpGet]
-        public IQueryable<CategoryViewModel> Read()
-        {
-            var categories = this.data.Categories.All().Select(CategoryViewModel.FromCategory);
-            return categories;
-        }
-
         [Route("Update")]
+        [Authorize(Roles = "admin")]
         [HttpPut]
-        public IHttpActionResult Update(int id, string newName)
+        public IHttpActionResult Update(int id, CategoryViewModel category)
         {
             if (!this.ModelState.IsValid)
             {
@@ -90,14 +73,15 @@
                 return BadRequest(CategoryNotFoundExceptionMassage + "category.");
             }
 
-            existingCategory.Name = newName;
-          
+            existingCategory.Name = category.Name;
             this.data.Categories.SaveChanges();
 
+            category.Id = existingCategory.Id;
             return Ok(existingCategory);
         }
 
         [Route("Delete")]
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         public IHttpActionResult Delete(int id)
         {
@@ -111,28 +95,6 @@
             this.data.Categories.SaveChanges();
 
             return Ok();
-        }
-
-        [Route("AddProduct")]
-        [HttpPost]
-        public IHttpActionResult AddProduct(int id, int productId)
-        {
-            var category = this.data.Categories.Find(id);
-            if (category == null)
-            {
-                return BadRequest(CategoryNotFoundExceptionMassage + "category.");
-            }
-
-            var product = this.data.Products.Find(id);
-            if (product == null)
-            {
-                return BadRequest(CategoryNotFoundExceptionMassage + "product.");
-            }
-
-            category.Products.Add(product);
-            this.data.Categories.SaveChanges();
-
-            return Ok(product);
         }
     }
 }
