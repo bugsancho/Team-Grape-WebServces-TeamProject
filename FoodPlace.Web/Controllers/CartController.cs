@@ -15,11 +15,10 @@
     public class CartController : BaseApiController
     {
         static PubnubAPI pubnub = new PubnubAPI(
-               "pub-c-02dee9ae-9627-4fb7-a486-a5cdf9df9749",               // PUBLISH_KEY
-               "sub-c-04a5c868-0374-11e3-bde1-02ee2ddab7fe",               // SUBSCRIBE_KEY
-               "sec-c-NTUzNGMyMjgtNDhkZS00ZTMwLWEyYTEtNGY5ZjYyOGU5ODY2",   // SECRET_KEY
-               true                                                        // SSL_ON?
-           );
+            "pub-c-02dee9ae-9627-4fb7-a486-a5cdf9df9749",               // PUBLISH_KEY
+            "sub-c-04a5c868-0374-11e3-bde1-02ee2ddab7fe",               // SUBSCRIBE_KEY
+            "sec-c-NTUzNGMyMjgtNDhkZS00ZTMwLWEyYTEtNGY5ZjYyOGU5ODY2",   // SECRET_KEY
+            true);
 
         private const string CartNotFoundExceptionMassage = "No such ";
  
@@ -133,7 +132,5 @@
 
             return Ok();
         }
-
-        
     }
 }

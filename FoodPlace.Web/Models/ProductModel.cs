@@ -20,7 +20,8 @@
                     Description = p.Description,
                     Category = p.Category.Name,
                     Size = p.Size,
-                    SizeUnit = p.SizeUnit.ToString()
+                    SizeUnit = p.SizeUnit.ToString(),
+                    PictureUrl = p.PictureUrl
                 };
             }
         }
@@ -38,5 +39,7 @@
         public int Size { get; set; }
 
         public string SizeUnit { get; set; }
+
+        public string PictureUrl { get; set; }     
     }
 }

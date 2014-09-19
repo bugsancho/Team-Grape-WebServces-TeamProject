@@ -9,7 +9,7 @@
     public class FoodPlaceDbContext : IdentityDbContext<User>
     {
         public FoodPlaceDbContext()
-            : base("FoodPlaceConnection", throwIfV1Schema: false)
+            : base("FoodPlaceConnectionLocal", throwIfV1Schema: false)
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<FoodPlaceDbContext, Configuration>());
         }
