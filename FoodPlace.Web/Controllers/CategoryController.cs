@@ -26,18 +26,10 @@
 
         [Route("GetCategories")]
         [HttpGet]
-        public string All()
-        {//TODO fix!!!
-            try
-            {
-                var categories = this.data.Categories.All().Select(CategoryViewModel.FromCategory);
-              //  return categories;
-            }
-            catch (Exception ex)
-            {
-                return ex.Message + ex.StackTrace;
-            }
-            return "ok";
+        public IQueryable<CategoryViewModel> All()
+        {
+            var categories = this.data.Categories.All().Select(CategoryViewModel.FromCategory);
+            return categories;
         }
 
         [Route("Create")]
