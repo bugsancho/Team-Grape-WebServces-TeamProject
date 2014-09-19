@@ -34,6 +34,6 @@
 
         public IDbSet<Category> Categories { get; set; }
 
-        public IDbSet<Cart> Carts { get; set; }
+        //public IDbSet<Cart> Carts { get; set; }
     }
 }

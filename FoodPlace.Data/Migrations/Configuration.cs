@@ -77,6 +77,7 @@ namespace FoodPlace.Data.Migrations
                 Description = "tomato sauce, ham, peppers, beans, corn, onion",
                 CategoryId = 1,
                 Size = 500,
+                PictureUrl = "https://2d74af6c7c3f49dbd1b6d07e54ee01ad017b8da7.googledrive.com/host/0B7bRfIUyRKaXR05SZXZjOVp1LUk/pizza-mexicana.jpg",
                 SizeUnit = SizeUnit.Grams
             });
 
@@ -87,6 +88,7 @@ namespace FoodPlace.Data.Migrations
                 Description = "tomato sauce, ham, mushrooms, cheese, olives, onion",
                 CategoryId = 1,
                 Size = 450,
+                PictureUrl = "https://2d74af6c7c3f49dbd1b6d07e54ee01ad017b8da7.googledrive.com/host/0B7bRfIUyRKaXR05SZXZjOVp1LUk/pizza-calzone.jpg",
                 SizeUnit = SizeUnit.Grams
             });
 
@@ -97,6 +99,7 @@ namespace FoodPlace.Data.Migrations
                 Description = "tomato sauce, bacon, ham, mushrooms, olives, fresh tomatos",
                 CategoryId = 1,
                 Size = 700,
+                PictureUrl ="https://2d74af6c7c3f49dbd1b6d07e54ee01ad017b8da7.googledrive.com/host/0B7bRfIUyRKaXR05SZXZjOVp1LUk/pizza-capricciosa.jpg",
                 SizeUnit = SizeUnit.Grams
             });       
 
@@ -107,6 +110,7 @@ namespace FoodPlace.Data.Migrations
                 Description = "tomatos, cucumbers, peppers, beans, corn, onion",
                 CategoryId = 6,
                 Size = 500,
+                PictureUrl = "https://2d74af6c7c3f49dbd1b6d07e54ee01ad017b8da7.googledrive.com/host/0B7bRfIUyRKaXR05SZXZjOVp1LUk/salad-mexicana.jpg",
                 SizeUnit = SizeUnit.Grams
             });
 
@@ -117,6 +121,7 @@ namespace FoodPlace.Data.Migrations
                 Description = "tomatos, potatoes, ham, chees, cucumbers, onion",
                 CategoryId = 6,
                 Size = 500,
+                PictureUrl = "https://2d74af6c7c3f49dbd1b6d07e54ee01ad017b8da7.googledrive.com/host/0B7bRfIUyRKaXR05SZXZjOVp1LUk/salad-italian.jpg",
                 SizeUnit = SizeUnit.Grams
             });
 
