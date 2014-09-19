@@ -9,8 +9,9 @@
     public class FoodPlaceDbContext : IdentityDbContext<User>
     {
         public FoodPlaceDbContext()
-            : base("FoodPlaceConnectionLocal", throwIfV1Schema: false)
+            : base("FoodPlaceConnection", throwIfV1Schema: false)
         {
+            //Database.SetInitializer(new DropCreateDatabaseAlways<FoodPlaceDbContext>());
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<FoodPlaceDbContext, Configuration>());
         }
 

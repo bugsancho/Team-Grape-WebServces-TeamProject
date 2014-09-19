@@ -119,6 +119,16 @@ namespace FoodPlace.Data.Migrations
                 Size = 500,
                 SizeUnit = SizeUnit.Grams
             });
+
+             context.Products.Add(new Product
+            {
+                Name = "Coca cola",
+                Price = 1.49m,
+                Description = "Cool refreshing beverage",
+                CategoryId = 4,
+                Size = 500,
+                SizeUnit = SizeUnit.Mililiters
+            });
         }
 
         private void SeedCategories(FoodPlaceDbContext context)
